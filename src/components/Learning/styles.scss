@@ -77,6 +77,8 @@ body {background: url(https://html5book.ru/wp-content/uploads/2015/07/background
 
 i {
   font-size: 50px !important;
+  height: 70px;
+  padding-top: 18px;
 }
 
 .replay button {
@@ -84,6 +86,7 @@ i {
   width: 80px;
   height: 80px;
   border-radius: 40px;
+  padding: 0px;
 }
 
 .subs-menu {
