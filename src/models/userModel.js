@@ -75,4 +75,24 @@ export default class UserModel {
         return false;
       });
   }
+  refresh() {
+    let headers = {
+      'Content-type': 'application/json'
+    };
+    const self = this;
+    return tt.post('auth/token/refresh/', {
+      refresh: this.user.refresh
+    }, headers)
+      .then( (data) => {
+        if (data !== false) {
+          self.setToken(data);
+          return true;
+        }
+        return false;
+      })
+      .catch( (error) => {
+        console.log('Request failed', error);
+        return false;
+      });
+  }
 }
