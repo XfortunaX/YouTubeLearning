@@ -9,11 +9,14 @@ export default class VideoModel {
       return VideoModel.instance;
     }
     this.video = {
-      id: 'zjaz2mC1KhM',
+      id: '',
       currentSub: 1,
       modifySubs: []
     };
     VideoModel.instance = this;
+  }
+  setId(id) {
+    this.video.id = id;
   }
   getSub(time) {
     let ms = this.video.modifySubs;

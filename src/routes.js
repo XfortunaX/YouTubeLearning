@@ -16,7 +16,7 @@ export const routes = (
       <Route path='login' component={Login} />
       <Route path='signup' component={Signup} />
       <Route path='profile' component={Profile} />
-      <Route path='learning' component={Learning} />
+      <Route path='learning/:video_id' component={Learning} />
     </Route>
     <Route path='*' component={NotFound} />
   </div>

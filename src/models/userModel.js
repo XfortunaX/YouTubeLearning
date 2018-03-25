@@ -20,10 +20,12 @@ export default class UserModel {
     return this.user;
   }
   setToken(data) {
+    this.isAuthorised = true;
     this.refresh = data.refresh;
     this.success = data.success;
   }
   setData(data) {
+    this.isAuthorised = true;
     this.user.username = data.username;
     this.user.email = data.email;
     this.user.id = data.id;
@@ -32,8 +34,11 @@ export default class UserModel {
     localStorage.clear();
     this.user = {
       isAuthorised: false,
+      id: '',
       username: '',
-      email: ''
+      email: '',
+      refresh: '',
+      success: ''
     };
   }
   login(data) {

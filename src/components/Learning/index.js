@@ -43,7 +43,7 @@ export default class Learning extends Component {
     // script2.src = 'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js';
     // script2.async = true;
     // document.body.appendChild(script2);
-
+    this.video.setId(window.location.href.split('/').reverse()[0]);
     this.video.getSubs();
     this.refs.youtube.internalPlayer.pauseVideo();
   }

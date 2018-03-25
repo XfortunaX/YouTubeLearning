@@ -27,14 +27,17 @@ export default class Transport {
       })
   }
   get(request, headers) {
-    console.log(API_URL + request, headers);
     return fetch(API_URL + request, {
+      credentials: 'include',
       method: 'GET',
-      headers: headers,
-      mode: 'cors'
+      headers: headers
     })
       .then( (response) => {
         return response.json();
-      });
+      })
+      .catch( (error) => {
+        console.log('Request failed', error);
+        return false;
+      })
   }
 }
