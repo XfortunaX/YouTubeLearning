@@ -4,6 +4,7 @@ import { Link } from 'react-router'
 import './styles.scss'
 import VideoModel from '../../models/videoModel'
 import { Input, Icon, Button } from 'react-materialize'
+// import { Helmet } from 'react-helmet'
 
 export default class Learning extends Component {
   constructor() {
@@ -34,6 +35,15 @@ export default class Learning extends Component {
     this.searchSub = this.searchSub.bind(this);
    }
   componentDidMount() {
+    // const script = document.createElement('script');
+    // script.src = 'https://code.jquery.com/jquery-2.1.1.min.js';
+    // script.async = true;
+    // document.body.appendChild(script);
+    // const script2 = document.createElement('script');
+    // script2.src = 'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js';
+    // script2.async = true;
+    // document.body.appendChild(script2);
+
     this.video.getSubs();
     this.refs.youtube.internalPlayer.pauseVideo();
   }
@@ -154,6 +164,12 @@ export default class Learning extends Component {
   render() {
     return (
       <div className='learning-page'>
+        {/*<Helmet>*/}
+          {/*<meta charSet='utf-8' />*/}
+          {/*<title>My Title</title>*/}
+          {/*<link href='http://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'/>*/}
+          {/*<link href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css' rel='stylesheet'/>*/}
+        {/*</Helmet>*/}
         <div className='back'>
           <Link className='link' to='/'>Вернуться</Link>
         </div>

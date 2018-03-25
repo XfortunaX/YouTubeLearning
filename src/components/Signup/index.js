@@ -1,7 +1,8 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router'
 import UserModel from '../../models/userModel'
 import './styles.scss'
+import { Input, Row, Col } from 'react-materialize'
 
 export default class Signup extends Component {
   constructor() {
@@ -11,54 +12,47 @@ export default class Signup extends Component {
       user: new UserModel(),
       validationError: false
     };
+    this.inputData = {};
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.validationField = this.validationField.bind(this);
   }
   handleSubmit(e) {
     e.preventDefault();
-    this.state.validationError = false;
-    let userName = e.target.elements[0].value;
-    let userEmail = e.target.elements[1].value;
-    let userPassword = e.target.elements[2].value;
-    let userRepeatPassword = e.target.elements[3].value;
-    if (userPassword === userRepeatPassword && userPassword !== '' && userEmail !== '') {
-      this.state.validationError = true;
-    }
-    if (this.state.validationError === true) {
-      let json = JSON.stringify({
-        displayName: userName,
-        email: userEmail,
-        password: userPassword
-      });
-      const self = this;
-      this.state.user.signup(json)
-        .then(function (data) {
-          if (data === true) {
-            self.context.router.push('/');
+    let self = this;
+    if (this.inputData.password.state.value === this.inputData.repeatPassword.state.value) {
+      this.state.user.signup({
+        username: this.inputData.username.state.value,
+        email: this.inputData.email.state.value,
+        password: this.inputData.password.state.value
+      })
+        .then( data => {
+          if (data === false) {
+            self.setState({ validationError: true })
+          } else {
+            self.state.user.setData(data);
+            console.log('signup');
           }
-          self.state.validationError = true;
-          self.forceUpdate();
         })
-        .catch(function () {
-          self.state.validationError = true;
-          self.forceUpdate();
+        .catch( () => {
+          console.log('failed');
         })
-    } else {
-      this.state.validationError = true;
-      this.forceUpdate();
     }
   }
-  checkValid() {
+  handleChange(e) {
+    e.preventDefault();
+    if (this.state.validationError === true) {
+      this.setState({ validationError: false })
+    }
+  }
+  validationField() {
     if (this.state.validationError === true) {
       return (
-        <div className='valid-error'>
-          Ошибка валидации
-        </div>
+        <Col  s={6} offset={'s3'} className='validation__error'>
+          Ошибка соединения
+        </Col>
       )
     }
-    return (
-      <div className='valid-error'>
-      </div>
-    )
   }
   render() {
     return (
@@ -70,25 +64,44 @@ export default class Signup extends Component {
           <div className='signup-form__title'>
             Регистрация
           </div>
-          <div className='signup-form__fields'>
-            {this.checkValid()}
-            <div className='field'>
-              <label>Name</label><br/>
-              <input type='text' name='userName' required/>
-            </div>
-            <div className='field'>
-              <label>Email</label><br/>
-              <input type='email' name='userEmail' required/>
-            </div>
-            <div className='field'>
-              <label>Password</label><br/>
-              <input type='password' name='userPassword' minLength='4' maxLength='14'/>
-            </div>
-            <div className='field'>
-              <label>Repeat Password</label><br/>
-              <input type='password' name='userRepeatPassword' minLength='4' maxLength='14'/>
-            </div>
-          </div>
+          <Row className='input__form'>
+            {this.validationField()}
+            <Col s={6} offset={'s3'}>
+              <Input
+                className='input__text'
+                label='Username'
+                ref={(input) => { this.inputData.username = input; }}
+                onChange={this.handleChange}
+              />
+            </Col>
+            <Col s={6} offset={'s3'}>
+              <Input
+                className='input__text'
+                type='email'
+                label='Email'
+                ref={(input) => { this.inputData.email = input; }}
+                onChange={this.handleChange}
+              />
+            </Col>
+            <Col s={6} offset={'s3'}>
+              <Input
+                className='input__text'
+                type='password'
+                label='password'
+                ref={(input) => { this.inputData.password = input; }}
+                onChange={this.handleChange}
+              />
+            </Col>
+            <Col s={6} offset={'s3'}>
+              <Input
+                className='input__text'
+                type='password'
+                label='repeatPassword'
+                ref={(input) => { this.inputData.repeatPassword = input; }}
+                onChange={this.handleChange}
+              />
+            </Col>
+          </Row>
           <div className='signup-btn'>
             <button className='link' type='submit'>Зарегистрироваться</button>
           </div>
@@ -97,7 +110,3 @@ export default class Signup extends Component {
     )
   }
 }
-
-Signup.contextTypes = {
-  router: PropTypes.object.isRequired
-};

@@ -26,18 +26,6 @@
   font-family: 'Fira Sans', sans-serif;
 }
 
-.login-form__fields input {
-  font-size: 24px;
-  padding: 10px;
-  border: solid 1px #fff;
-  box-shadow: inset 1px 1px 2px 0 #707070;
-  transition: box-shadow 0.3s;
-}
-
-.login-form__fields input:focus {
-  box-shadow: inset 1px 1px 2px 0 #c9c9c9;
-}
-
 .valid-error {
   width: 300px;
   color: crimson;
@@ -88,3 +76,24 @@ body {background: url(https://html5book.ru/wp-content/uploads/2015/07/background
   border: none;
 }
 
+.input__text {
+  font-size: 2em !important;
+  margin-top: 20px;
+}
+
+label {
+  font-size: 1em !important;
+}
+
+label.active {
+  font-size: 1.2em !important;
+}
+
+.input__form {
+  text-align: center;
+  margin-top: 25px;
+}
+
+.col.input-field {
+  margin-bottom: 20px;
+}

@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 import UserModel from '../../models/userModel'
 import './styles.scss'
+import { Input, Row, Col } from 'react-materialize'
 
 export default class Login extends Component {
   constructor() {
@@ -11,43 +12,43 @@ export default class Login extends Component {
       user: new UserModel(),
       validationError: false
     };
+    this.inputData = {};
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.validationField = this.validationField.bind(this);
   }
   handleSubmit(e) {
     e.preventDefault();
-    this.state.validationError = false;
-    let userUsername = e.target.elements[0].value;
-    let userPassword = e.target.elements[1].value;
-    let json = JSON.stringify({
-      email: userUsername,
-      password: userPassword
-    });
-    const self = this;
-    this.state.user.login(json)
-      .then(function (data) {
-        if (data === true) {
-          self.context.router.push('/');
+    let self = this;
+    this.state.user.login({
+      username: this.inputData.username.state.value,
+      password: this.inputData.password.state.value
+    })
+      .then( data => {
+        if (data === false) {
+          self.setState({ validationError: true })
+        } else {
+          console.log('login');
         }
-        self.state.validationError = true;
-        self.forceUpdate();
       })
-      .catch(function () {
-        self.state.validationError = true;
-        self.forceUpdate();
+      .catch( () => {
+        console.log('failed');
       })
   }
-  checkValid() {
+  handleChange(e) {
+    e.preventDefault();
+    if (this.state.validationError === true) {
+      this.setState({ validationError: false })
+    }
+  }
+  validationField() {
     if (this.state.validationError === true) {
       return (
-        <div className='valid-error'>
-          Ошибка валидации
-        </div>
+        <Col  s={6} offset={'s3'} className='validation__error'>
+          Ошибка соединения
+        </Col>
       )
     }
-    return (
-      <div className='valid-error'>
-      </div>
-    )
   }
   render() {
     return (
@@ -59,17 +60,26 @@ export default class Login extends Component {
           <div className='login-form__title'>
             Авторизация
           </div>
-          <div className='login-form__fields'>
-            {this.checkValid()}
-            <div className='field'>
-              <label>Username</label>
-              <input type='text' name='usernamelLogin' />
-            </div>
-            <div className='field'>
-              <label>Password</label>
-              <input type='password' name='passwordLogin' minLength='4' maxLength='14'/>
-            </div>
-          </div>
+          <Row className='input__form'>
+            {this.validationField()}
+            <Col s={6} offset={'s3'}>
+              <Input
+                className='input__text'
+                label='Username'
+                ref={(input) => { this.inputData.username = input; }}
+                onChange={this.handleChange}
+              />
+            </Col>
+            <Col s={6} offset={'s3'}>
+              <Input
+                className='input__text'
+                type='password'
+                label='password'
+                ref={(input) => { this.inputData.password = input; }}
+                onChange={this.handleChange}
+              />
+            </Col>
+          </Row>
           <div className='login-btn'>
             <button className='link' type='submit'>Войти</button>
           </div>

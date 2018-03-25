@@ -19,16 +19,20 @@ export default class UserModel {
   getData() {
     return this.user;
   }
+  setToken(data) {
+    this.refresh = data.refresh;
+    this.success = data.success;
+  }
   setData(data) {
-    this.user.nickname = data.displayName;
+    this.user.username = data.username;
     this.user.email = data.email;
-    this.user.isAuthorised = true;
+    this.user.id = data.id;
   }
   logout() {
     localStorage.clear();
     this.user = {
       isAuthorised: false,
-      nickname: '',
+      username: '',
       email: ''
     };
   }
@@ -37,15 +41,15 @@ export default class UserModel {
       'Content-type': 'application/json'
     };
     const self = this;
-    return tt.post('login', data, headers)
-      .then(function (data) {
+    return tt.post('auth/token/', data, headers)
+      .then( (data) => {
         if (data !== false) {
-          self.setData(data);
+          self.setToken(data);
           return true;
         }
         return false;
       })
-      .catch(function (error) {
+      .catch( (error) => {
         console.log('Request failed', error);
         return false;
       });
@@ -54,14 +58,14 @@ export default class UserModel {
     let headers = {
       'Content-type': 'application/json'
     };
-    return tt.post('user', data, headers)
-      .then(function (data) {
+    return tt.post('auth/signup/', data, headers)
+      .then( (data) => {
         if (data !== false) {
           return true;
         }
         return false;
       })
-      .catch(function (error) {
+      .catch( (error) => {
         console.log('Request failed', error);
         return false;
       });
