@@ -15,8 +15,16 @@ export default class VideoModel {
     };
     VideoModel.instance = this;
   }
-  setId(id) {
+  setId() {
+    let id = window.location.href.split('/').reverse()[0];
     this.video.id = id;
+  }
+  getCurrent() {
+    return this.video.currentSub;
+  }
+  getId() {
+    this.setId();
+    return this.video.id;
   }
   getSub(time) {
     let ms = this.video.modifySubs;
@@ -31,9 +39,11 @@ export default class VideoModel {
   }
   getSubs() {
     const self = this;
-    return tt.get('video/' + this.video.id, {})
+    return tt.get('api/video/' + this.video.id, {})
       .then( (data) => {
+        // console.log(data);
         self.video.modifySubs = data.final_subs;
+        return data;
       })
       .catch( (error) => {
         console.log('Request failed', error);

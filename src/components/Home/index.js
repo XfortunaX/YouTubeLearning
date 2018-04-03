@@ -1,27 +1,42 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
 import UserModel from '../../models/userModel'
 import VideosModel from '../../models/videosModel'
 import './styles.scss'
-import { Collapsible, CollapsibleItem, Row, Col } from 'react-materialize'
+import Login from './Login/index'
+import Signup from './Signup/index'
+import Navbar from './Navbar/index'
+import Categories from './Categories/index'
 
 export default class Home extends Component {
   constructor() {
     super();
     this.state = {
-      checkAuth: false,
+      auth: false,
+      profile: false,
+      video: false,
       user: new UserModel(),
-      videos: new VideosModel()
+      videos: new VideosModel(),
+      openLogin: false,
+      openSignup: false
     };
-    this.handleClick = this.handleClick.bind(this);
-    this.LessonsCategories = this.LessonsCategories.bind(this);
+
+    this.checkAuth = this.checkAuth.bind(this);
+    this.logout = this.logout.bind(this);
+    this.authClose = this.authClose.bind(this);
+    this.login = this.login.bind(this);
+  }
+  componentWillMount() {
+    this.state.user.checkToken();
+    this.state.user.refresh(this.checkAuth)
   }
   componentDidMount() {
+    let self = this;
     this.state.videos.getVideos()
       .then( data => {
         if (data === false) {
           console.log('failed')
         } else {
+          self.setState({ video: true })
           console.log('getVideos');
         }
       })
@@ -29,145 +44,49 @@ export default class Home extends Component {
         console.log('failed');
       })
   }
-  handleClick(e) {
-    e.preventDefault();
-    this.state.user.logout();
-    this.forceUpdate();
-  }
-  Profile() {
-    const isLogged = this.state.user.isAuthorised();
-    if (isLogged) {
-      return (
-        <div className='head'>
-          <div className='auth'>
-            <div className='userNickname'>{ this.state.user.getData().username }</div>
-            <div className='userActions'>
-              <div className='toProfile'>
-                <Link className='link' to='/profile'>Профиль</Link>
-              </div>
-              <div className='toLogout'>
-                <Link className='link' to='/' onClick={ this.handleClick }>Выйти</Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
+  componentWillReceiveProps(props) {
+    if (props.profile === false && props.openLogin === false && props.openSignup === false) {
+      this.checkAuth();
     }
-    return (
-      <div className='head'>
-        <div className='notAuth'>
-          <div className='userNickname'>Вы не авторизованы!</div>
-          <div className='userActions'>
-            <div className='toLogin'>
-              <Link className='link' to='/login'>Войти</Link>
-            </div>
-            <div className='toSignUp'>
-              <Link className='link' to='/signup'>Регистрация</Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
   }
-  Menu() {
-    return (
-      <div className='main'>
-        <div className='name'>
-          YouTube &nbsp;&nbsp;Learning
-        </div>
-        <div className='menu'>
-          {/*<div className='menu-item'>*/}
-            {/*<Link className='link' to='/learning'>К просмотру!</Link>*/}
-          {/*</div>*/}
-        </div>
-      </div>
-    );
-  }
-  LessonsCategories() {
+  checkAuth() {
     let self = this;
-    let videosData = [
-      {
-        'id': 1,
-        'videos': [
-          {
-            'id': 1,
-            'lesson': 'First Lesson',
-            'thumbnail': 'https://img.youtube.com/vi/_ZLXKt4L-AA/1.jpg',
-            'video_id': '_ZLXKt4L-AA'
-          },
-          {
-            'id': 2,
-            'lesson': 'First Lesson',
-            'thumbnail': 'https://img.youtube.com/vi/4h0uC9FPVMQ/1.jpg',
-            'video_id': '4h0uC9FPVMQ'
-          },
-          {
-            'id': 3,
-            'lesson': 'First Lesson',
-            'thumbnail': 'https://img.youtube.com/vi/4h0uC9FPVMQ/1.jpg',
-            'video_id': '4h0uC9FPVMQ'
-          }
-        ],
-        'name': 'First Lesson'
-      },
-      {
-        'id': 2,
-        'videos': [
-          {
-            'id': 1,
-            'lesson': 'Second Lesson',
-            'thumbnail': 'https://img.youtube.com/vi/_ZLXKt4L-AA/1.jpg',
-            'video_id': '_ZLXKt4L-AA'
-          },
-          {
-            'id': 2,
-            'lesson': 'Second Lesson',
-            'thumbnail': 'https://img.youtube.com/vi/4h0uC9FPVMQ/1.jpg',
-            'video_id': '4h0uC9FPVMQ'
-          },
-          {
-            'id': 3,
-            'lesson': 'Second Lesson',
-            'thumbnail': 'https://img.youtube.com/vi/4h0uC9FPVMQ/1.jpg',
-            'video_id': '4h0uC9FPVMQ'
-          }
-        ],
-        'name': 'Second Lesson'
-      }
-    ];
-    let categoriesRow = videosData.map((item) => {
-      return self.Categories(item);
-    });
-    return (
-      <Collapsible popout defaultActiveKey={1}>
-        {categoriesRow}
-      </Collapsible>
-    )
+    self.state.user.profile()
+      .then( data => {
+        if (data === false) {
+          console.log('failed')
+          self.setState({ openLogin: true });
+        } else {
+          console.log('auth');
+          self.setState({ profile: true });
+        }
+      })
+      .catch( () => {
+        console.log('failed');
+      })
   }
-  Categories(category) {
-    let videoRow = category.videos.map((item, i) => {
-      return (
-        <Col s={2} offset={'s1'}>
-          <Link to={'/learning/' + item.video_id}>
-            <img className='video-image' src={item.thumbnail} key={i.toString()}/>
-          </Link>
-        </Col>
-      )
-    });
-    return (
-      <CollapsibleItem header={category.name} key={category.id.toString()}>
-        <Row>
-          {videoRow}
-        </Row>
-      </CollapsibleItem>
-    )
+  logout() {
+    this.state.user.logout();
+    this.setState({ auth: false, profile: false, openLogin: true });
+  }
+  authClose() {
+    if (this.state.openLogin === true) {
+      this.setState({ openLogin: false, openSignup: true });
+    } else {
+      this.setState({ openLogin: true, openSignup: false });
+    }
+  }
+  login() {
+    this.setState({ auth: true, openLogin: false, openSignup: false });
+    this.checkAuth();
   }
   render() {
     return (
       <div className='home-page'>
-        {this.Profile()}
-        {this.Menu()}
-        {this.LessonsCategories()}
+        <Navbar profile={this.state.profile} logout={this.logout}/>
+        <Login open={this.state.openLogin} onChange={this.authClose} login={this.login} />
+        <Signup open={this.state.openSignup} onChange={this.authClose} login={this.login}/>
+        <Categories/>
       </div>
     )
   }

@@ -10,13 +10,14 @@ export default class Transport {
   }
   post(request, data, headers) {
     return fetch(API_URL + request, {
-      credentials: 'include',
       method: 'POST',
       body: data,
-      headers: headers
+      headers: headers,
+      mode: 'cors'
     })
       .then( (response) => {
-        if (response.status !== 200) {
+        // console.log(response);
+        if (response.status !== 200 && response.status !== 201) {
           return false;
         }
         return response.json();
@@ -28,11 +29,15 @@ export default class Transport {
   }
   get(request, headers) {
     return fetch(API_URL + request, {
-      credentials: 'include',
       method: 'GET',
-      headers: headers
+      headers: headers,
+      mode: 'cors'
     })
       .then( (response) => {
+        // console.log(response);
+        if (response.status !== 200 && response.status !== 201) {
+          return response.status;
+        }
         return response.json();
       })
       .catch( (error) => {
