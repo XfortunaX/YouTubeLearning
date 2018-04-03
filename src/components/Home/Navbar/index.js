@@ -105,7 +105,7 @@ const styles = {
   title: {
     flex: 1,
     textAlign: 'center',
-    fontSize: '3em',
+    fontSize: '2.3em',
     fontStyle: 'italic',
     fontFamily: 'Lobster'
   },
