@@ -103,6 +103,7 @@ const styles = {
     height: '100%'
   },
   listTile: {
+    width: '100%',
     flexWrap: 'nowrap',
     transform: 'translateZ(0)',
     overflowX: 'scroll',
