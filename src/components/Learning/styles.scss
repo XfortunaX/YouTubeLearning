@@ -12,33 +12,8 @@
   font-family: 'Fira Sans', sans-serif;
 }
 
-body {background: url(https://html5book.ru/wp-content/uploads/2015/07/background39.png);}
-.link {
-  text-decoration: none;
-  outline: none;
-  display: inline-block;
-  width: 170px;
-  height: 45px;
-  line-height: 45px;
-  border-radius: 45px;
-  margin: 10px 8px;
-  font-family: 'Fira Sans', sans-serif;
-  font-size: 16px;
-  text-transform: uppercase;
-  text-align: center;
-  letter-spacing: 1px;
-  font-weight: 600;
-  color: #524f4e;
-  background: white;
-  box-shadow: 0 8px 15px rgba(0,0,0,.1);
-  transition: .3s;
-}
-
-.link:hover {
-  background: #2EE59D;
-  box-shadow: 0 15px 20px rgba(46,229,157,.4);
-  color: white;
-  transform: translateY(-7px);
+iframe {
+  width: 640px
 }
 
 .youtube-video {
@@ -46,17 +21,16 @@ body {background: url(https://html5book.ru/wp-content/uploads/2015/07/background
   padding: 40px;
 }
 
-.subs {
-  text-align: center;
-  font-size: 20px;
-  width: 65%;
-  display: inline-block;
-  margin-right: 10px;
-}
+//.subs {
+//  text-align: center;
+//  font-size: 20px;
+//  width: 65%;
+//  display: inline-block;
+//}
 
 .word {
   display: inline-block;
-  margin-left: 10px;
+  margin-right: 15px;
   margin-top: 6px;
   font-size: 22px !important;
 }
@@ -77,8 +51,6 @@ body {background: url(https://html5book.ru/wp-content/uploads/2015/07/background
 
 i {
   font-size: 50px !important;
-  height: 70px;
-  padding-top: 18px;
 }
 
 .replay button {
@@ -86,7 +58,6 @@ i {
   width: 80px;
   height: 80px;
   border-radius: 40px;
-  padding: 0px;
 }
 
 .subs-menu {
