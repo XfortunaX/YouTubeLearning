@@ -289,7 +289,7 @@ const style = {
     }
   },
   passwordRestore: {
-    marginTop: 35,
+    marginTop: 50,
     height: 38,
     fontSize: 16,
     fontStyle: 'italic'
