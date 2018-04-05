@@ -40,6 +40,7 @@ export default class Learning extends Component {
     };
     this.inputData = {};
 
+    this.updateUser = this.updateUser.bind(this);
     this.logout = this.logout.bind(this);
     this.checkAuth = this.checkAuth.bind(this);
     this.replay = this.replay.bind(this);
@@ -52,8 +53,7 @@ export default class Learning extends Component {
     this.searchSub = this.searchSub.bind(this);
    }
   componentWillMount() {
-    this.state.user.checkToken();
-    this.state.user.refresh(this.checkAuth)
+    this.updateUser();
   }
   componentDidMount() {
     let self = this;
@@ -61,6 +61,10 @@ export default class Learning extends Component {
       .then((data) => {
         self.text.setText(data);
       })
+  }
+  updateUser() {
+    this.state.user.checkToken();
+    this.state.user.refresh(this.checkAuth)
   }
   logout() {
     this.state.user.logout();
@@ -93,7 +97,8 @@ export default class Learning extends Component {
     console.log('pause', event.target.getCurrentTime());
   }
   handleClickEnd() {
-    this.text.sendResult();
+    this.updateUser();
+    this.text.sendResult(this.video.getId());
     this.setState({ result: true })
     console.log('end');
   }

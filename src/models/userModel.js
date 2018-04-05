@@ -145,4 +145,24 @@ export default class UserModel {
       auth();
     }
   }
+  history() {
+    let headers = {
+      'Content-type': 'application/json',
+      'Authorization': 'Bearer ' + this.user.access
+    };
+    const self = this;
+    return tt.get('history/', headers)
+      .then( (data) => {
+        if (typeof data !== 'number') {
+          self.setProfile(data);
+          // console.log(data);
+          return true;
+        }
+        return false;
+      })
+      .catch( (error) => {
+        console.log('Request failed', error);
+        return false;
+      });
+  }
 }

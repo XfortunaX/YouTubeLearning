@@ -19,6 +19,7 @@ export default class Login extends Component {
       onChange: props.onChange,
       login: props.login,
       errorAuth: false,
+      errorText: '',
       type: 'login'
     };
     this.inputData = {};
@@ -39,21 +40,27 @@ export default class Login extends Component {
     e.preventDefault();
     let self = this;
     // console.log(this.inputData.username.value, this.inputData.password.value)
-    this.state.user.login({
-      username: this.inputData.username.value,
-      password: this.inputData.password.value
-    })
-      .then( data => {
-        if (data === false) {
-          self.setState({ errorAuth: true })
-        } else {
-          self.state.login();
-          console.log('login');
-        }
+    if (this.inputData.username.value === '') {
+      this.setState({ errorAuth: true, errorText: 'Имя пользователя должно быть заполнено' });
+    } else if (this.inputData.password.value.length < 8 ) {
+      this.setState({ errorAuth: true, errorText: 'Пароль должен быть больше 7 символов' });
+    } else {
+      this.state.user.login({
+        username: this.inputData.username.value,
+        password: this.inputData.password.value
       })
-      .catch( () => {
-        console.log('failed');
-      })
+        .then(data => {
+          if (data === false) {
+            self.setState({errorAuth: true, errorText: 'Ошибка'})
+          } else {
+            self.state.login();
+            console.log('login');
+          }
+        })
+        .catch(() => {
+          console.log('failed');
+        })
+    }
   }
   handleChange(e) {
     e.preventDefault();
@@ -65,7 +72,7 @@ export default class Login extends Component {
     if (this.state.errorAuth === true) {
       return (
         <Grid item xs={12} style={ style.errorAuth }>
-          Ошибка
+          {this.state.errorText}
         </Grid>
       )
     }
@@ -106,9 +113,11 @@ export default class Login extends Component {
                 <TextField
                   label='Пароль'
                   type='password'
+                  helperText={'Длина пароля должна быть больше 7 символов'}
                   style={ style.userAuth.password.field}
                   inputProps={ style.userAuth.password.input }
                   InputLabelProps={ style.userAuth.password.label }
+                  FormHelperTextProps={{ style: { fontSize: 13} }}
                   inputRef={ (input) => { this.inputData.password = input; }}
                   onChange={this.handleChange}
                   required={true}

@@ -42,16 +42,37 @@ export default class TextModel {
   getText() {
     return this.text.text;
   }
-  sendResult() {
+  sendResult(id) {
     let headers = {
       'Content-type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('access')
     };
-    // console.log(JSON.stringify(this.text.text));
-    return tt.post('result/', JSON.stringify(this.text.text), headers)
+    console.log(id);
+    return tt.post('history/', JSON.stringify({
+      video_id2: id,
+      json_data: this.text.text }), headers)
       .then( (data) => {
         // console.log(data);
         if (data !== false) {
+          return true;
+        }
+        return false;
+      })
+      .catch( (error) => {
+        console.log('Request failed', error);
+        return false;
+      });
+  }
+  getOne(id) {
+    let headers = {
+      'Content-type': 'application/json'
+    };
+    // const self = this;
+    return tt.get('history/' + id, headers)
+      .then( (data) => {
+        if (typeof data !== 'number') {
+          // self.setProfile(data);
+          console.log(data);
           return true;
         }
         return false;

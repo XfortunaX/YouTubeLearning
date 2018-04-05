@@ -19,6 +19,7 @@ export default class Signup extends Component {
       onChange: props.onChange,
       login: props.login,
       errorAuth: false,
+      errorText: '',
       type: 'signup'
     };
     this.inputData = {};
@@ -44,7 +45,16 @@ export default class Signup extends Component {
       this.inputData.password.value,
       this.inputData.repeatPassword.value
     );
-    if (this.inputData.password.value === this.inputData.repeatPassword.value) {
+    let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (this.inputData.username.value === '') {
+      this.setState({ errorAuth: true, errorText: 'Имя пользователя должно быть заполнено' });
+    } else if (!reg.test(this.inputData.email.value)) {
+      this.setState({ errorAuth: true, errorText: 'Некорректный email' });
+    } else if (this.inputData.password.value.length < 8 ) {
+      this.setState({ errorAuth: true, errorText: 'Пароль должен быть больше 7 символов' });
+    } else if (this.inputData.password.value !== this.inputData.repeatPassword.value) {
+      this.setState({ errorAuth: true, errorText: 'Пароли не совпадают' });
+    } else {
       this.state.user.signup({
         username: this.inputData.username.value,
         email: this.inputData.email.value,
@@ -52,7 +62,7 @@ export default class Signup extends Component {
       })
         .then( data => {
           if (data === false) {
-            self.setState({ errorAuth: true })
+            self.setState({ errorAuth: true, errorText: 'Ошибка' })
           } else {
             self.handleClick();
             console.log('signup');
@@ -73,7 +83,7 @@ export default class Signup extends Component {
     if (this.state.errorAuth === true) {
       return (
         <Grid item xs={12} style={ style.errorAuth }>
-          Ошибка
+          {this.state.errorText}
         </Grid>
       )
     }
@@ -111,9 +121,11 @@ export default class Signup extends Component {
                 <TextField
                   label='Электронная почта'
                   type='email'
+                  helperText={'example@email.com'}
                   style={ style.userSignup.email.field }
                   inputProps={ style.userSignup.email.input }
                   InputLabelProps={ style.userSignup.email.label }
+                  FormHelperTextProps={{ style: { fontSize: 13} }}
                   inputRef={(input) => { this.inputData.email = input; }}
                   onChange={this.handleChange}
                   required={true}
@@ -123,9 +135,11 @@ export default class Signup extends Component {
                 <TextField
                   label='Пароль'
                   type='password'
+                  helperText={'Длина пароля должна быть больше 7 символов'}
                   style={ style.userSignup.password.field }
                   inputProps={ style.userSignup.password.input }
                   InputLabelProps={ style.userSignup.password.label }
+                  FormHelperTextProps={{ style: { fontSize: 13} }}
                   inputRef={(input) => { this.inputData.password = input; }}
                   onChange={this.handleChange}
                   required={true}
@@ -135,9 +149,11 @@ export default class Signup extends Component {
                 <TextField
                   label='Повторите пароль'
                   type='password'
+                  helperText={'Длина пароля должна быть больше 7 символов'}
                   style={ style.userSignup.repeatPassword.field}
                   inputProps={ style.userSignup.repeatPassword.input }
                   InputLabelProps={ style.userSignup.repeatPassword.label }
+                  FormHelperTextProps={{ style: { fontSize: 13} }}
                   inputRef={(input) => { this.inputData.repeatPassword = input; }}
                   onChange={this.handleChange}
                   required={true}
