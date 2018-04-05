@@ -229,7 +229,7 @@ const style = {
     },
     email: {
       row: {
-        marginTop: 20,
+        marginTop: 30,
         height: 50
       },
       field: {
@@ -242,14 +242,14 @@ const style = {
       },
       label: {
         style: {
-          fontSize: '1.3em',
+          fontSize: '1em',
           fontWeight: 400
         }
       }
     },
     password: {
       row: {
-        marginTop: 20,
+        marginTop: 30,
         height: 50
       },
       field: {
@@ -257,19 +257,19 @@ const style = {
       },
       input: {
         style: {
-          fontSize: '1.8em'
+          fontSize: '1.4em'
         }
       },
       label: {
         style: {
-          fontSize: '1.3em',
+          fontSize: '1em',
           fontWeight: 400
         }
       }
     },
     repeatPassword: {
       row: {
-        marginTop: 20,
+        marginTop: 30,
         height: 50
       },
       field: {
@@ -277,12 +277,12 @@ const style = {
       },
       input: {
         style: {
-          fontSize: '1.8em'
+          fontSize: '1.4em'
         }
       },
       label: {
         style: {
-          fontSize: '1.3em',
+          fontSize: '1em',
           fontWeight: 400
         }
       }

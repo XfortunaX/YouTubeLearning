@@ -58,6 +58,9 @@ export default class UserModel {
     this.user.username = data.username;
     this.user.profile = data.profile;
   }
+  setHistory(data) {
+   this.user.history = data;
+  }
   logout() {
     localStorage.clear();
     this.user = {
@@ -154,7 +157,7 @@ export default class UserModel {
     return tt.get('history/', headers)
       .then( (data) => {
         if (typeof data !== 'number') {
-          self.setProfile(data);
+          self.setHistory(data);
           // console.log(data);
           return true;
         }

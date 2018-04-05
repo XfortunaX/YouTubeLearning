@@ -51,6 +51,7 @@ export default class Profile extends Component {
           window.location.href = '/';
         } else {
           console.log('auth');
+          self.state.user.history()
           self.setState({ profile: true, level: self.state.user.getData().profile.level });
         }
       })
