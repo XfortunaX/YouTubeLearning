@@ -85,10 +85,11 @@ export default class Profile extends Component {
   createText() {
     let self = this;
     let subText = this.state.text.getText();
+    console.log(subText);
     let num = 0;
     if (subText.length > 0) {
       let text = subText.map((item) => {
-        let one = self.createSub(item, num)
+        let one = self.createSub(item, num);
         num += item.length;
         return one
       });
