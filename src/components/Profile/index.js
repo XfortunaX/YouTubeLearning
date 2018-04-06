@@ -73,9 +73,9 @@ export default class Profile extends Component {
     this.state.user.setLevel({ level: this.state.level });
     this.setState({ edit: false });
   }
-  loadDetails(e) {
-    console.log(e.target);
-    this.state.text.getOne(e.target.name)
+  loadDetails(id, e) {
+    console.log(id, e.target);
+    this.state.text.getOne(id)
   }
   settings() {
     return (
@@ -160,7 +160,7 @@ export default class Profile extends Component {
       item.date = new Date(item.date);
       return (
         <ExpansionPanel key={i} style={{ background: 'rgba(227, 242, 253, 1)', marginBottom: 20 }}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} name={item.id} onClick={this.loadDetails}>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} name={item.id} onClick={(e) => this.loadDetails(item.id, e)}>
             <Grid container spacing={8} justify={'center'} alignContent={'center'} alignItems={'center'}>
               <Grid item xs={12} style={{ fontSize: 24, borderBottom: '1px solid', textAlign: 'left', fontStyle: 'italic' }}>
                 {item.date.getDay() + '.' + item.date.getMonth() + '.' + item.date.getFullYear()}
