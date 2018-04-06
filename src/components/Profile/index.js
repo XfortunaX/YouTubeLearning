@@ -74,8 +74,8 @@ export default class Profile extends Component {
     this.setState({ edit: false });
   }
   loadDetails(e) {
-    console.log(e.target.name);
-    this.state.text.getOne(e.target.name)
+    console.log(e.target);
+    this.state.text.getOne(e.target)
   }
   settings() {
     return (
@@ -159,7 +159,7 @@ export default class Profile extends Component {
     let lessonsList = lessons.map( (item, i) => {
       item.date = new Date(item.date);
       return (
-        <ExpansionPanel key={i} style={{ background: 'rgba(227, 242, 253, 1)', marginBottom: 20 }}>
+        <ExpansionPanel key={i} style={{ background: 'rgba(227, 242, 253, 1)', marginBottom: 20 }} name={item.id} onClick={this.loadDetails}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Grid container spacing={8} justify={'center'} alignContent={'center'} alignItems={'center'}>
               <Grid item xs={12} style={{ fontSize: 24, borderBottom: '1px solid', textAlign: 'left', fontStyle: 'italic' }}>
@@ -195,7 +195,7 @@ export default class Profile extends Component {
             </Grid>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <div name={item.id} onClick={this.loadDetails}>
+            <div>
               Подробности
             </div>
           </ExpansionPanelDetails>
