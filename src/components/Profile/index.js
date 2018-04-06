@@ -421,6 +421,20 @@ const styles = {
     fontStyle: 'italic',
     fontWeight: 600
   },
+  wordInput: {
+    baseFieldColor: {
+      color: 'rgba(33, 33, 33, 1)'
+    },
+    missFieldColor: {
+      color: 'rgba(189, 189, 189, 1)'
+    },
+    successFieldColor: {
+      color: 'rgba(56, 142, 60, 1)'
+    },
+    errorFieldColor: {
+      color: 'rgba(211, 47, 47, 1)'
+    }
+  },
   buttonLogout: {
     width: '100%',
     background: 'rgba(244, 67, 54, 1)',
