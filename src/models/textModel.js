@@ -74,7 +74,7 @@ export default class TextModel {
         if (typeof data !== 'number') {
           // self.setProfile(data);
           self.text.text = data.json_data;
-          console.log(data);
+          console.log(data.json_data);
           return true;
         }
         return false;

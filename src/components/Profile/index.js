@@ -28,9 +28,11 @@ export default class Profile extends Component {
       level: '',
       value: 0,
       edit: false,
-      expanded: null
+      expanded: null,
+      loadDetail: false
     };
 
+    this.createText = this.createText.bind(this);
     this.logout = this.logout.bind(this);
     this.checkAuth = this.checkAuth.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -81,6 +83,9 @@ export default class Profile extends Component {
   loadDetails(id, e) {
     console.log(id, e.target);
     this.state.text.getOne(id)
+      .then(() => {
+        this.setState({ loadDetail: true })
+      })
   }
   createText() {
     let self = this;
