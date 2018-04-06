@@ -38,8 +38,11 @@ export default class VideoModel {
     }
   }
   getSubs() {
+    let headers = {
+      'Authorization': 'Bearer ' + localStorage.getItem('access')
+    };
     const self = this;
-    return tt.get('api/video/' + this.video.id, {})
+    return tt.get('api/video/' + this.video.id, headers)
       .then( (data) => {
         // console.log(data);
         self.video.modifySubs = data.final_subs;

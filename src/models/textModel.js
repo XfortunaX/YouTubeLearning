@@ -65,7 +65,7 @@ export default class TextModel {
   }
   getOne(id) {
     let headers = {
-      'Content-type': 'application/json'
+      'Authorization': 'Bearer ' + localStorage.getItem('access')
     };
     // const self = this;
     return tt.get('history/' + id, headers)

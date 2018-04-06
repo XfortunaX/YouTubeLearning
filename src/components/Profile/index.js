@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import UserModel from '../../models/userModel'
+import TextModel from '../../models/textModel'
 import Navbar from '../Home/Navbar/index'
 import './styles.scss'
 import Card, { CardContent } from 'material-ui/Card';
@@ -23,6 +24,7 @@ export default class Profile extends Component {
     super();
     this.state = {
       user: new UserModel(),
+      text: new TextModel(),
       level: '',
       value: 0,
       edit: false
@@ -33,6 +35,7 @@ export default class Profile extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeLevel = this.handleChangeLevel.bind(this);
     this.handleSave = this.handleSave.bind(this);
+    this.loadDetails = this.loadDetails.bind(this);
   }
   componentWillMount() {
     this.state.user.checkToken();
@@ -69,6 +72,10 @@ export default class Profile extends Component {
     console.log('save');
     this.state.user.setLevel({ level: this.state.level });
     this.setState({ edit: false });
+  }
+  loadDetails(e) {
+    console.log(e.target.name);
+    this.state.text.getOne(e.target.name)
   }
   settings() {
     return (
@@ -188,7 +195,7 @@ export default class Profile extends Component {
             </Grid>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <div>
+            <div name={item.id} onClick={this.loadDetails}>
               Подробности
             </div>
           </ExpansionPanelDetails>
