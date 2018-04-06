@@ -168,4 +168,23 @@ export default class UserModel {
         return false;
       });
   }
+  setLevel(data) {
+    let headers = {
+      'Content-type': 'application/json',
+      'Authorization': 'Bearer ' + this.user.access
+    };
+    const self = this;
+    return tt.post('user/change_level/', JSON.stringify(data), headers)
+      .then( (data) => {
+        if (data !== false) {
+          self.user.profile.level = data.level;
+          return true;
+        }
+        return false;
+      })
+      .catch( (error) => {
+        console.log('Request failed', error);
+        return false;
+      });
+  }
 }

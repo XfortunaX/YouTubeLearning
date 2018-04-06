@@ -198,7 +198,7 @@ const style = {
     },
     password: {
       row: {
-        marginTop: 35,
+        marginTop: 20,
         height: 50
       },
       field: {
@@ -218,7 +218,7 @@ const style = {
     }
   },
   passwordRestore: {
-    marginTop: 45,
+    marginTop: 50,
     height: 38,
     fontSize: 16,
     fontStyle: 'italic'

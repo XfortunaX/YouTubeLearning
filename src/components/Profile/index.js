@@ -67,6 +67,7 @@ export default class Profile extends Component {
   }
   handleSave() {
     console.log('save');
+    this.state.user.setLevel({ level: this.state.level });
     this.setState({ edit: false });
   }
   settings() {
@@ -131,23 +132,25 @@ export default class Profile extends Component {
     )
   }
   progress() {
-    let lessons = [
-      {
-        date: new Date(),
-        video_id: 'FMEk8cHF-OA',
-        thumbnail: 'https://img.youtube.com/vi/FMEk8cHF-OA/0.jpg',
-        percentTrue: 57,
-        percentTotal: 24
-      },
-      {
-        date: new Date(),
-        video_id: 'DW1AuOC9TQc',
-        thumbnail: 'https://img.youtube.com/vi/DW1AuOC9TQc/0.jpg',
-        percentTrue: 78,
-        percentTotal: 38
-      }
-    ];
+    // let lessons = [
+    //   {
+    //     date: new Date(),
+    //     video_id: 'FMEk8cHF-OA',
+    //     thumbnail: 'https://img.youtube.com/vi/FMEk8cHF-OA/0.jpg',
+    //     percentTrue: 57,
+    //     percentTotal: 24
+    //   },
+    //   {
+    //     date: new Date(),
+    //     video_id: 'DW1AuOC9TQc',
+    //     thumbnail: 'https://img.youtube.com/vi/DW1AuOC9TQc/0.jpg',
+    //     percentTrue: 78,
+    //     percentTotal: 38
+    //   }
+    // ];
+    let lessons = this.state.user.getData().history;
     let lessonsList = lessons.map( (item, i) => {
+      item.date = new Date(item.date);
       return (
         <ExpansionPanel key={i} style={{ background: 'rgba(227, 242, 253, 1)', marginBottom: 20 }}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -167,9 +170,9 @@ export default class Profile extends Component {
                   Пройдено
                 </div>
                 <div style={ styles.diagramNum }>
-                  {item.percentTotal}%
+                  {item.complete_prc}%
                 </div>
-                <CircularProgress style={ styles.diagram } variant='static' value={item.percentTotal} />
+                <CircularProgress style={ styles.diagram } variant='static' value={item.complete_prc} />
               </Grid>
               <Grid item xs={1}>
               </Grid>
@@ -178,9 +181,9 @@ export default class Profile extends Component {
                   Правильно
                 </div>
                 <div style={ styles.diagramNum }>
-                  {item.percentTrue}%
+                  {item.correct_prc}%
                 </div>
-                <CircularProgress style={ styles.diagram } variant='static' value={item.percentTrue} />
+                <CircularProgress style={ styles.diagram } variant='static' value={item.correct_prc} />
               </Grid>
             </Grid>
           </ExpansionPanelSummary>

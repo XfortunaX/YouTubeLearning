@@ -229,7 +229,7 @@ const style = {
     },
     email: {
       row: {
-        marginTop: 30,
+        marginTop: 15,
         height: 50
       },
       field: {
