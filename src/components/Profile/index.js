@@ -86,16 +86,23 @@ export default class Profile extends Component {
     let self = this;
     let subText = this.state.text.getText();
     let num = 0;
-    let text = subText.map((item) => {
-      let one = self.createSub(item, num)
-      num += item.length;
-      return one
-    });
-    return (
-      <div className='Text' style={{ maxHeight: 350, overflowY: 'auto' }}>
-        {text}
-      </div>
-    )
+    if (subText.length > 0) {
+      let text = subText.map((item) => {
+        let one = self.createSub(item, num)
+        num += item.length;
+        return one
+      });
+      return (
+        <div className='Text' style={{maxHeight: 350, overflowY: 'auto'}}>
+          {text}
+        </div>
+      )
+    } else {
+      return (
+        <div className='Text' style={{maxHeight: 350, overflowY: 'auto'}}>
+        </div>
+      )
+    }
   }
   createSub (sub, i) {
     let subOne = sub.map((item, j) => {
@@ -200,7 +207,7 @@ export default class Profile extends Component {
     let lessonsList = lessons.map( (item, i) => {
       item.date = new Date(item.date);
       return (
-        <ExpansionPanel key={i} style={{ background: 'rgba(227, 242, 253, 1)', marginBottom: 20 }} expanded={this.state.expanded === i.toString()} onChange={this.handleChangeExpanded(i.toString())}>
+        <ExpansionPanel key={i} style={{ background: 'rgba(227, 242, 253, 1)', marginBottom: 20 }}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} name={item.id} onClick={(e) => this.loadDetails(item.id, e)}>
             <Grid container spacing={8} justify={'center'} alignContent={'center'} alignItems={'center'}>
               <Grid item xs={12} style={{ fontSize: 24, borderBottom: '1px solid', textAlign: 'left', fontStyle: 'italic' }}>
