@@ -67,11 +67,12 @@ export default class TextModel {
     let headers = {
       'Authorization': 'Bearer ' + localStorage.getItem('access')
     };
-    // const self = this;
+    const self = this;
     return tt.get('history/' + id, headers)
       .then( (data) => {
         if (typeof data !== 'number') {
           // self.setProfile(data);
+          self.text.text = data.json_data;
           console.log(data);
           return true;
         }

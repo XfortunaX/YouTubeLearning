@@ -27,13 +27,15 @@ export default class Profile extends Component {
       text: new TextModel(),
       level: '',
       value: 0,
-      edit: false
+      edit: false,
+      expanded: null
     };
 
     this.logout = this.logout.bind(this);
     this.checkAuth = this.checkAuth.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeLevel = this.handleChangeLevel.bind(this);
+    this.handleChangeExpanded = this.handleChangeExpanded.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.loadDetails = this.loadDetails.bind(this);
   }
@@ -54,7 +56,7 @@ export default class Profile extends Component {
           window.location.href = '/';
         } else {
           console.log('auth');
-          self.state.user.history()
+          self.state.user.history();
           self.setState({ profile: true, level: self.state.user.getData().profile.level });
         }
       })
@@ -68,6 +70,9 @@ export default class Profile extends Component {
   handleChangeLevel(event) {
     this.setState({ level: event.target.value, edit: true });
   }
+  handleChangeExpanded (event, expanded) {
+    this.setState({ expanded: expanded });
+  }
   handleSave() {
     console.log('save');
     this.state.user.setLevel({ level: this.state.level });
@@ -76,6 +81,42 @@ export default class Profile extends Component {
   loadDetails(id, e) {
     console.log(id, e.target);
     this.state.text.getOne(id)
+  }
+  createText() {
+    let self = this;
+    let subText = this.state.text.getText();
+    let num = 0;
+    let text = subText.map((item) => {
+      let one = self.createSub(item, num)
+      num += item.length;
+      return one
+    });
+    return (
+      <div className='Text' style={{ maxHeight: 350, overflowY: 'auto' }}>
+        {text}
+      </div>
+    )
+  }
+  createSub (sub, i) {
+    let subOne = sub.map((item, j) => {
+      return (
+        <div
+          key={i + j}
+          style={{
+            display: 'inline-block',
+            marginRight: 15,
+            fontSize: '1.5em',
+            color: styles.wordInput[item.state + 'FieldColor'].color
+          }}>
+          {item.word}
+        </div>
+      )
+    });
+    return (
+      <div className='subs' key={i}>
+        {subOne}
+      </div>
+    )
   }
   settings() {
     return (
@@ -159,7 +200,7 @@ export default class Profile extends Component {
     let lessonsList = lessons.map( (item, i) => {
       item.date = new Date(item.date);
       return (
-        <ExpansionPanel key={i} style={{ background: 'rgba(227, 242, 253, 1)', marginBottom: 20 }}>
+        <ExpansionPanel key={i} style={{ background: 'rgba(227, 242, 253, 1)', marginBottom: 20 }} expanded={this.state.expanded === i.toString()} onChange={this.handleChangeExpanded(i.toString())}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} name={item.id} onClick={(e) => this.loadDetails(item.id, e)}>
             <Grid container spacing={8} justify={'center'} alignContent={'center'} alignItems={'center'}>
               <Grid item xs={12} style={{ fontSize: 24, borderBottom: '1px solid', textAlign: 'left', fontStyle: 'italic' }}>
@@ -195,9 +236,7 @@ export default class Profile extends Component {
             </Grid>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <div>
-              Подробности
-            </div>
+            {this.createText()}
           </ExpansionPanelDetails>
         </ExpansionPanel>
       )
