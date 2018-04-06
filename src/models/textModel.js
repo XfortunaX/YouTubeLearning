@@ -10,7 +10,8 @@ export default class TextModel {
     }
     this.text = {
       subs: [],
-      words: []
+      words: [],
+      text: []
     };
     TextModel.instance = this;
   }
