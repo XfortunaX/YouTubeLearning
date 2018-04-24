@@ -328,7 +328,7 @@ export default class Profile extends Component {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} style={{padding: 0}}>
               <AppBar position='static' color='default' className='bar'>
                 <Tabs
                   value={this.state.value}
@@ -381,7 +381,7 @@ const styles = {
     width: '100%'
   },
   videoCard: {
-    display: 'flex',
+    display: 'inline-flex',
     padding: 4,
     margin: 10,
     height: 140
