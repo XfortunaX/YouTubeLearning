@@ -36,7 +36,7 @@ export default class Categories extends Component {
   }
   createCategory(category) {
     return (
-      <ExpansionPanel style={ styles.category } key={category.id.toString()}>
+      <ExpansionPanel style={ styles.category } key={category.id.toString()} defaultExpanded>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} style={ styles.categoryTitleField }>
           <Typography variant='title' style={ styles.categoryTitle }>{ category.name }</Typography>
         </ExpansionPanelSummary>

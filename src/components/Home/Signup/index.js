@@ -5,10 +5,11 @@ import Dialog, {
   DialogActions,
   DialogContent,
   DialogTitle
-} from 'material-ui/Dialog';
-import Button from 'material-ui/Button';
-import TextField from 'material-ui/TextField';
-import Grid from 'material-ui/Grid';
+} from 'material-ui/Dialog'
+import Button from 'material-ui/Button'
+import TextField from 'material-ui/TextField'
+import Grid from 'material-ui/Grid'
+
 
 export default class Signup extends Component {
   constructor(props) {
@@ -20,7 +21,8 @@ export default class Signup extends Component {
       login: props.login,
       errorAuth: false,
       errorText: '',
-      type: 'signup'
+      type: 'signup',
+      openSnack: props.openSnack
     };
     this.inputData = {};
 
@@ -62,8 +64,9 @@ export default class Signup extends Component {
       })
         .then( data => {
           if (data === false) {
-            self.setState({ errorAuth: true, errorText: 'Ошибка' })
+            self.setState({ errorAuth: true, errorText: 'Такой пользователь уже существует' })
           } else {
+            self.state.openSnack();
             self.handleClick();
             console.log('signup');
           }
@@ -169,7 +172,7 @@ export default class Signup extends Component {
             <Grid container spacing={8} justify='center'>
               <Grid item xs={6}>
                 <Button style={ style.buttonLogin } onClick={this.handleClick}>
-                  Войти
+                  Перейти на вход
                 </Button>
               </Grid>
               <Grid item xs={6}>
@@ -187,14 +190,13 @@ export default class Signup extends Component {
 
 const style = {
   dialogTitle: {
-    height: 40,
     borderBottom: '1px solid',
     background: 'rgba(238, 238, 238, 1)'
   },
   dialogTitleText: {
     marginTop: 8,
     paddingBottom: 6,
-    fontSize: '1.8em'
+    fontSize: 35
   },
   dialogContent: {
     width: 430,
@@ -303,7 +305,7 @@ const style = {
   buttonSignup: {
     width: '100%',
     background: 'rgba(0, 150, 136, 1)',
-    fontSize: '1em',
+    fontSize: 16,
     borderRadius: 0,
     border: 0,
     color: 'white',
@@ -312,8 +314,8 @@ const style = {
   },
   buttonLogin: {
     width: '100%',
-    background: 'rgba(197, 202, 233, 1)',
-    fontSize: '1em',
+    background: 'rgba(2, 136, 209, 1)',
+    fontSize: 14,
     borderRadius: 0,
     border: 0,
     color: 'white',

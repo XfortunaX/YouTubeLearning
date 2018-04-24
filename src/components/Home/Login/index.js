@@ -51,7 +51,7 @@ export default class Login extends Component {
       })
         .then(data => {
           if (data === false) {
-            self.setState({errorAuth: true, errorText: 'Ошибка'})
+            self.setState({errorAuth: true, errorText: 'Неверное имя пользователя или пароль'})
           } else {
             self.state.login();
             console.log('login');
@@ -113,7 +113,6 @@ export default class Login extends Component {
                 <TextField
                   label='Пароль'
                   type='password'
-                  helperText={'Длина пароля должна быть больше 7 символов'}
                   style={ style.userAuth.password.field}
                   inputProps={ style.userAuth.password.input }
                   InputLabelProps={ style.userAuth.password.label }
@@ -133,7 +132,7 @@ export default class Login extends Component {
             <Grid container spacing={8} justify='center'>
               <Grid item xs={6}>
                 <Button style={ style.buttonSignup } onClick={this.handleClick}>
-                  Зарегистрироваться
+                  Перейти на регистрацию
                 </Button>
               </Grid>
               <Grid item xs={6}>
@@ -151,14 +150,13 @@ export default class Login extends Component {
 
 const style = {
   dialogTitle: {
-    height: 40,
     borderBottom: '1px solid',
     background: 'rgba(238, 238, 238, 1)'
   },
   dialogTitleText: {
     marginTop: 8,
     paddingBottom: 6,
-    fontSize: '1.8em'
+    fontSize: 35
   },
   dialogContent: {
     width: 430,
@@ -173,6 +171,7 @@ const style = {
   errorAuth: {
     height: 28,
     fontSize: 18,
+    marginTop: 10,
     color: 'rgba(229, 57, 53, 1)'
   },
   userAuth: {
@@ -231,8 +230,8 @@ const style = {
   },
   buttonSignup: {
     width: '100%',
-    background: 'rgba(197, 202, 233, 1)',
-    fontSize: '1em',
+    background: 'rgba(2, 136, 209, 1)',
+    fontSize: 14,
     borderRadius: 0,
     border: 0,
     color: 'white',
@@ -242,7 +241,7 @@ const style = {
   buttonLogin: {
     width: '100%',
     background: 'rgba(0, 150, 136, 1)',
-    fontSize: '1em',
+    fontSize: 22,
     borderRadius: 0,
     border: 0,
     color: 'white',

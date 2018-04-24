@@ -6,6 +6,8 @@ import Login from './Login/index'
 import Signup from './Signup/index'
 import Navbar from './Navbar/index'
 import Categories from './Categories/index'
+import Snackbar from 'material-ui/Snackbar'
+
 
 export default class Home extends Component {
   constructor() {
@@ -17,17 +19,19 @@ export default class Home extends Component {
       user: new UserModel(),
       videos: new VideosModel(),
       openLogin: false,
-      openSignup: false
+      openSignup: false,
+      openSnack: false
     };
 
     this.checkAuth = this.checkAuth.bind(this);
     this.logout = this.logout.bind(this);
     this.authClose = this.authClose.bind(this);
     this.login = this.login.bind(this);
+    this.snack = this.snack.bind(this);
   }
   componentWillMount() {
     this.state.user.checkToken();
-    this.state.user.refresh(this.checkAuth)
+    this.state.user.refresh(this.checkAuth);
   }
   componentDidMount() {
     let self = this;
@@ -36,7 +40,7 @@ export default class Home extends Component {
         if (data === false) {
           console.log('failed')
         } else {
-          self.setState({ video: true })
+          self.setState({ video: true });
           console.log('getVideos');
         }
       })
@@ -49,6 +53,10 @@ export default class Home extends Component {
       this.checkAuth();
     }
   }
+  snack() {
+    console.log('openSnack');
+    this.setState({openSnack: true})
+  }
   checkAuth() {
     let self = this;
     self.state.user.profile()
@@ -58,7 +66,7 @@ export default class Home extends Component {
           self.setState({ openLogin: true });
         } else {
           console.log('auth');
-          self.setState({ profile: true });
+          self.setState({profile: true, auth: true});
         }
       })
       .catch( () => {
@@ -85,8 +93,27 @@ export default class Home extends Component {
       <div className='home-page'>
         <Navbar profile={this.state.profile} logout={this.logout}/>
         <Login open={this.state.openLogin} onChange={this.authClose} login={this.login} />
-        <Signup open={this.state.openSignup} onChange={this.authClose} login={this.login}/>
-        <Categories/>
+        <Signup open={this.state.openSignup} openSnack={this.snack} onChange={this.authClose} login={this.login}/>
+        {
+          this.state.auth &&
+          <Categories/>
+        }
+        <Snackbar
+          style={{width: 400}}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right'
+          }}
+          open={this.state.openSnack}
+          autoHideDuration={6000}
+          onClose={() => {
+            this.setState({ openSnack: false });
+          }}
+          SnackbarContentProps={{
+            'aria-describedby': 'message-id'
+          }}
+          message={<span style={{fontSize: 20}} id='message-id'>Регистрация прошла успешно</span>}
+        />
       </div>
     )
   }

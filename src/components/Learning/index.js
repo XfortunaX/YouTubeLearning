@@ -148,17 +148,17 @@ export default class Learning extends Component {
             return (
               <TextField
                 key={i.toString()}
-                style={{ width: item.length * 15, marginRight: 15 }}
+                style={{ width: item.length * 15, marginRight: 15, marginBottom: 6 }}
                 inputProps={ styles.wordInput.input }
                 inputRef={(input) => { this.inputData[i.toString()] = input; }}
-                placeholder={'word'}
+                placeholder={'*'}
               />
             )
           } else {
             return (
               <div
                 key={i.toString()}
-                style={{ display: 'inline-block', marginRight: 15, fontSize: '1.5em '}}>
+                style={{ display: 'inline-block', marginRight: 15, fontSize: '1.5em', marginBottom: 6}}>
                 {item}
               </div>
             )
@@ -173,7 +173,8 @@ export default class Learning extends Component {
                 display: 'inline-block',
                 marginRight: 15,
                 fontSize: '1.5em',
-                color: styles.wordInput[item.state + 'FieldColor'].color
+                color: styles.wordInput[item.state + 'FieldColor'].color,
+                marginBottom: 6
               }}>
               {item.word}
             </div>
@@ -358,7 +359,7 @@ const styles = {
     margingTop: 10
   },
   actions: {
-    marginTop: 20
+    marginTop: 15
   },
   buttonReplay: {
     width: 90,

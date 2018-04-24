@@ -22,8 +22,8 @@ export default class UserModel {
   }
   getStats() {
     return {
-      totalTrue: 67,
-      play: 2,
+      totalTrue: 35,
+      play: 0,
       playTotal: 0
     }
   }
@@ -139,8 +139,9 @@ export default class UserModel {
       return tt.post('auth/token/refresh/', JSON.stringify({ refresh: this.user.refresh }), headers)
         .then((data) => {
           if (data !== false) {
-            // console.log(data);
             self.setToken(data);
+            auth();
+          } else {
             auth();
           }
         })

@@ -180,8 +180,8 @@ export default class Profile extends Component {
               <Grid item xs={12}>
                 <Grid container spacing={24} justify={'center'} alignContent={'center'}>
                   <Grid item xs={4}>
-                    <Button style={ styles.buttonContinue } onClick={this.handleSave}>
-                      Редактировать
+                    <Button style={ styles.buttonEdit } onClick={this.handleSave}>
+                      Сохранить
                     </Button>
                   </Grid>
                 </Grid>
@@ -193,22 +193,6 @@ export default class Profile extends Component {
     )
   }
   progress() {
-    // let lessons = [
-    //   {
-    //     date: new Date(),
-    //     video_id: 'FMEk8cHF-OA',
-    //     thumbnail: 'https://img.youtube.com/vi/FMEk8cHF-OA/0.jpg',
-    //     percentTrue: 57,
-    //     percentTotal: 24
-    //   },
-    //   {
-    //     date: new Date(),
-    //     video_id: 'DW1AuOC9TQc',
-    //     thumbnail: 'https://img.youtube.com/vi/DW1AuOC9TQc/0.jpg',
-    //     percentTrue: 78,
-    //     percentTotal: 38
-    //   }
-    // ];
     let lessons = this.state.user.getData().history;
     let lessonsList = lessons.map( (item, i) => {
       item.date = new Date(item.date);
@@ -256,9 +240,24 @@ export default class Profile extends Component {
     });
     return (
       <Card style={{ padding: 8 * 3 }}>
-        <CardContent>
-          {lessonsList}
-        </CardContent>
+        {
+          lessons.length > 0
+          ?
+            <CardContent>
+              {lessonsList}
+            </CardContent>
+          :
+            <CardContent style={{maxWidth: 300, textAlign: 'center', margin: 'auto'}}>
+              <div style={{fontSize: 20, marginBottom: 20}}>
+                История пуста
+              </div>
+              <Link to={'/'}>
+                <Button style={styles.buttonContinue}>
+                  Перейти к урокам
+                </Button>
+              </Link>
+            </CardContent>
+        }
       </Card>
     )
   }
@@ -445,10 +444,20 @@ const styles = {
     height: 40,
     padding: '0 30px'
   },
+  buttonEdit: {
+    width: '100%',
+    background: 'rgba(121, 134, 203, 1)',
+    fontSize: 20,
+    borderRadius: 0,
+    border: 0,
+    color: 'white',
+    height: 40,
+    padding: '0 30px'
+  },
   buttonContinue: {
     width: '100%',
     background: 'rgba(121, 134, 203, 1)',
-    fontSize: '0.8em',
+    fontSize: 14,
     borderRadius: 0,
     border: 0,
     color: 'white',
